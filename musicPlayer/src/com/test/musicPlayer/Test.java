@@ -54,6 +54,7 @@ public class Test {
 		for (int i = 0; i < n; i++) {
 			System.out.println("		" + getPLMenu(i) + "		");
 		}
+		System.out.println("*******************************");
 	}
 
 	public void playerMenu() {
@@ -62,6 +63,7 @@ public class Test {
 		for (int i = 0; i < n; i++) {
 			System.out.println("		" + getPMenu(i) + "		");
 		}
+		System.out.println("*******************************");
 	}
 
 	// ×¢Á÷³Ì
