@@ -12,6 +12,10 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
+<meta http-equiv="expires" content="Thu,01 Jan 1970 00:00:01 GMT" />
+<meta http-equiv="expires" content="0" />
 <title>图书后台管理</title>
 <link rel="stylesheet" href="css/index.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -85,7 +89,8 @@
 					</tr>
 				</thead>
 				<tbody id="contentBody">
-					<c:forEach items="${requestScope.bookList}" var="book"
+				
+				<!--	<c:forEach items="${requestScope.bookList}" var="book"
 						varStatus="idx">
 						<tr id="tr1">
 							<td>${idx.index+1}</td>
@@ -97,10 +102,8 @@
 							<td>
 							<a href="${pageContext.request.contextPath}/modifyBook?bookId=${book.id}">修改</a> 
 							<a href="/deleteBook?bookId=${book.id}">删除</a></td>
-							<!--在循环显示数据时，此处的book0001可以用EL表达式进行替换-->
-
 						</tr>
-					</c:forEach>
+					</c:forEach> -->
 				</tbody>
 			</table>
 		</div>
@@ -131,11 +134,12 @@
 		});
 		
 		
-		/*$(function() {
+		$(function() {
 			$.ajax({
 						"url" : "<%=path%>/getBookList",
 						"dataType" : "json",
 						"type" : "get",
+						"async": false,
 						"success" : function(json) {
 							$("#contentBody>tr").remove();
 							if (json.length == 0) {
@@ -145,13 +149,17 @@
 							}
 							for (var i = 0; i < json.length; i++) {
 								var book = json[i];
+								console.log(book);
 								$("#contentBody").append(
-												"<tr id='tr${i/2+1}'><td>${i+1}</td><td>${book.id}</td><td>${book.name}</td><td>${book.getCategoryName()}</td><td>${book.price}</td><td><img src='${book.coverImg}'></td><td><a href='/updateBook?bookId=${book.id}'>修改</a><a href='/deleteBook?bookId=${book.id}'>删除</a></td></tr>");
+												"<tr id='tr'"+i/2+1+"><td>"+i+1+"</td><td>"+book.id+"</td><td>"+
+												book.name+"</td><td>"+book.categoryName+"</td><td>"+book.price+
+												"</td><td><img src="+book.coverImg+"></td><td><a href='<%=path%>/modifyBook?bookId="+
+														book.id+"'>修改</a> <a href='<%=path%>/deleteBookServlet?bookId="+book.id+"'>删除</a></td></tr>");
+						
 							}
 						}
 					});
 		});
-		*/
 	</script>
 </body>
 </html>

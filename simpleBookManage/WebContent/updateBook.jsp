@@ -30,7 +30,7 @@
             <div class="page-header">
                 <h3><small>修改</small></h3>
             </div>
-            <form class="form-horizontal" action="${pageContext.request.contextPath}/updateBookServlet" method="post">
+            <form class="form-horizontal" action="${pageContext.request.contextPath}/updateBookServlet" method="post" enctype="multipart/form-data" >
 
                 <div class="form-group">
                     <label for="name" class="col-sm-2 control-label">图书编号 ：</label>
@@ -140,15 +140,16 @@
     		}
     	});
     	
+    	console.log($("before change:"+"#bookPic").val());
     	$("#bookPic").on("change",function(){
-    		alert("change");
     		$.ajax({
     			"url":"<%=path%>/updateImg",
     			"data":{"imgPath":$("#bookPic").val()},
     			"dateType":"json",
+    			"async":false,
     			"type":"post",
     			"success":function(){
-    				alert("success");
+    				conlose.log("after change:"+json.path);
     				$("#coverImg").src=json.path;
     			},
     		})
