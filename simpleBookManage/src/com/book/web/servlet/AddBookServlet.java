@@ -38,9 +38,10 @@ public class AddBookServlet extends HttpServlet{
 		String categoryId = bookMap.get("categoryId");
 		float price=Float.parseFloat(bookMap.get("bookPrice"));
 		String imgPath = bookMap.get("path");
+		String description=bookMap.get("remarks");
 
 		// 封装数据
-		Book book=new Book(id,name,categoryId,price,imgPath);
+		Book book=new Book(id,name,categoryId,price,imgPath,description);
 		// 处理数据
 		BookServiceImpl bsi = new BookServiceImpl();
 		int n = bsi.addBook(book);
@@ -51,11 +52,11 @@ public class AddBookServlet extends HttpServlet{
 			request.setAttribute("msg", msg);
 			request.getRequestDispatcher("/addBook.jsp").forward(request, response);
 		} else if (n == 0) {
-			msg = "添加成功！";
-			request.setAttribute("msg", msg);
-			//response.sendRedirect(request.getContextPath() + "/bookList.jsp");
-			request.setAttribute("bookList",bsi.getBookList());
-			request.getRequestDispatcher("/bookList.jsp").forward(request,response);
+			//msg = "添加成功！";
+			//request.setAttribute("msg", msg);
+			response.sendRedirect(request.getContextPath() + "/bookList.jsp");
+		//	request.setAttribute("bookList",bsi.getBookList());
+		//	request.getRequestDispatcher("/bookList.jsp").forward(request,response);
 		}
 		
 	}

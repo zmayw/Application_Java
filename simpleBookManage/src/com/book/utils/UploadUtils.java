@@ -1,5 +1,7 @@
 package com.book.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +51,60 @@ public class UploadUtils {
 					String value = fileItem.getString("UTF-8");
 					objectMap.put(name,value);
 				} else {
+					
+					long startTime=System.currentTimeMillis();
+					// 文件上传项
+					// 获得文件的名称
+					String fileName = fileItem.getName();
+					//获得唯一文件名
+					String uuidFileName=UploadUtils.getUuidFileName(fileName);
+					// 获得文件的输入流
+					InputStream is = fileItem.getInputStream();
+					BufferedInputStream bis=new BufferedInputStream(is);
+					// 需要将文件写入到服务器的某个路径下
+					System.out.println("request.getContextPath():"+request.getContextPath());
+					objectMap.put("path",request.getContextPath()+"/upload/"+uuidFileName);
+					
+					String url=request.getServletContext().getRealPath("/upload")+"\\"+uuidFileName;
+					System.out.println("url:"+request.getServletContext().getRealPath("/upload"+"\\"+uuidFileName));
+					// 创建输出流与输入流进行对接
+					OutputStream os = new FileOutputStream(url);
+					BufferedOutputStream bos=new BufferedOutputStream(os);
+					int len = 0;
+					byte[] b = new byte[1024];
+					while ((len = bis.read(b)) != -1) {
+						os.write(b, 0, len);
+					}
+					long endTime=System.currentTimeMillis();
+					System.out.println(endTime-startTime);
+					bos.flush();
+					bos.close();
+					bis.close();
+					is.close();
+					os.close();
+				}
+			}
+		} catch (FileUploadException e) {
+			System.out.println("catch....." + e);
+		}
+		
+		return objectMap;
+	}
+	
+	
+	public static Map<String,String> getFileUploadRequest(HttpServletRequest request,HttpServletResponse response) throws IOException {
+		Map<String,String> objectMap=new HashMap<String,String>();
+		// 1.创建磁盘文件项工厂
+		DiskFileItemFactory diskFileItemFactory = new DiskFileItemFactory();
+		// 2.创建核心解析
+		ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
+		// 3。解析请求对象，将请求分成几个部分（FileItem）
+		try {
+			List<FileItem> list = fileUpload.parseRequest(request);
+			// 4.遍历集合获得每个部分的对象
+			for (FileItem fileItem : list) {
+				// 判断是普通 项还是文件上传项
+				if (!fileItem.isFormField()) {
 					// 文件上传项
 					// 获得文件的名称
 					String fileName = fileItem.getName();
@@ -63,17 +119,12 @@ public class UploadUtils {
 					String url=request.getServletContext().getRealPath("/upload")+"\\"+uuidFileName;
 					System.out.println("url:"+request.getServletContext().getRealPath("/upload"+"\\"+uuidFileName));
 					OutputStream os = new FileOutputStream(url);
-					int len = 0;
-					byte[] b = new byte[1024];
-					while ((len = is.read(b)) != -1) {
-						os.write(b, 0, len);
-					}
 					is.close();
 					os.close();
 				}
 			}
 		} catch (FileUploadException e) {
-			System.out.println("catch....." + e);
+			e.printStackTrace();
 		}
 		
 		return objectMap;

@@ -52,13 +52,29 @@ public class BookServiceImpl implements BookService {
 				Field[] fields=book.getClass().getDeclaredFields();
 				Field[] bkFields=bk.getClass().getDeclaredFields();
 				for(int i=0;i<fields.length;i++) {
+					fields[i].setAccessible(true);
+					bkFields[i].setAccessible(true);
+					System.out.println("updateBook:"+"fields[i]:"+fields[i]+", attributeName:"+fields[i].getName());
 					String attributeName=fields[i].getName();
-					String bookValue=fields[i].get(attributeName).toString();
-					String bkValue=bkFields[i].get(attributeName).toString();
-					System.out.println("llll:"+"attributeName:"+attributeName+"bkValue:"+bookValue);
-					if(!bookValue.equals(bkValue)) {
-						bkFields[i].set(attributeName,bookValue);
-					}
+
+					System.out.println("fields[i].getType(): "+fields[i].getType());
+					System.out.println("bkFields[i].getType(): "+bkFields[i].getType());
+					if(fields[i].getType() == float.class) {
+						float bookValue=(float) fields[i].get(book);
+						float bkValue=(float) bkFields[i].get(bk);
+						if(bookValue != bkValue) {
+							bkFields[i].set(bk,bookValue);
+						}
+						System.out.println("updateBookfloat:"+" attributeName: "+attributeName+", bookValue:"+bookValue+",bkValue:"+bkValue);
+					}else {
+						String bookValue=(String)fields[i].get(book);
+						String bkValue=(String)bkFields[i].get(bk);
+						if(!bookValue.equals(bkValue)) {
+							bkFields[i].set(bk,bookValue);
+						}
+						System.out.println("updateBookString:"+" attributeName: "+attributeName+", bookValue:"+bookValue+",bkValue:"+bkValue);
+					}	
+
 				}
 				break;
 			}

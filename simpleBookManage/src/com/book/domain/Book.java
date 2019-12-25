@@ -21,12 +21,13 @@ public class Book {
 
 	}
 	
-	public Book(String id, String name, String categoryId, float price, String coverImg) {
+	public Book(String id, String name, String categoryId, float price, String coverImg,String description) {
 		setId(id);
 		setName(name);
 		setCategoryId(categoryId);
 		setPrice(price);
 		setCoverImg(coverImg);
+		setDescription(description);
 	}
 	
 	public float getPrice() {
