@@ -23,19 +23,6 @@ public class UpdateBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		/*
-		//接收数据
-		String id=request.getParameter("bookId");
-		String name=request.getParameter("bookName");
-		String categoryId=request.getParameter("categoryId");
-		float price=Float.parseFloat(request.getParameter("bookPrice"));
-		String description=request.getParameter("remarks");
-		String path=request.getParameter("bookPic");
-		
-		//封装数据
-		Book bk=new Book(id,name,categoryId,price,path,description);
-		//处理数据
-		*/
 		//接收数据
 		Map<String,String> bookMap=UploadUtils.operateFileUploadRequest(request,response);
 		String id = bookMap.get("bookId");
@@ -44,7 +31,15 @@ public class UpdateBookServlet extends HttpServlet {
 		float price=Float.parseFloat(bookMap.get("bookPrice"));
 		String imgPath = bookMap.get("path");
 		String description=bookMap.get("remarks");
-
+		String hiddenText=bookMap.get("hiddenText");
+		System.out.println("before imgPath:"+imgPath);
+		System.out.println("before hiddenText:"+hiddenText);
+		//前端页面未编辑上传图片的情况，将原地址写到隐藏控件中，提交过来
+		if(imgPath=="" || imgPath==null) {
+			imgPath=hiddenText;
+		}
+		System.out.println("after imgPath:"+imgPath);
+		System.out.println("after hiddenText:"+hiddenText);
 		// 封装数据
 		Book book=new Book(id,name,categoryId,price,imgPath,description);
 		//处理数据

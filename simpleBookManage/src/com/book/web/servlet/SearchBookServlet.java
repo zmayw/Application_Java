@@ -14,7 +14,7 @@ import com.book.service.impl.BookServiceImpl;
 import com.alibaba.fastjson.JSON;
 import com.book.domain.Book;
 
-@WebServlet("/searchBookServlet")
+@WebServlet("/searchBook")
 public class SearchBookServlet extends HttpServlet {
 
 	/**
@@ -72,8 +72,8 @@ public class SearchBookServlet extends HttpServlet {
 		}
 		//·µ»Ø½á¹û
 		String json=JSON.toJSONString(resultList);
-		request.setAttribute("bookList",resultList);
-		request.getRequestDispatcher("/bookList.jsp").forward(request, response);
+		System.out.println("in servelt the json: "+json);
+		response.getWriter().println(json);
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

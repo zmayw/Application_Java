@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class UploadUtils {
 	public static String getUuidFileName(String fileName) {
 		//解决文件重名的问题
 		int idx=fileName.lastIndexOf(".");
+		System.out.println("fileName:"+fileName+",idx:"+idx);
 		String exName=fileName.substring(idx);
 		//生成随机字符串
 		String uuidFileName=UUID.randomUUID().toString().replace("-","")+exName;
@@ -56,6 +58,9 @@ public class UploadUtils {
 					// 文件上传项
 					// 获得文件的名称
 					String fileName = fileItem.getName();
+					if(fileName==""||fileName==null) {
+						continue;
+					}
 					//获得唯一文件名
 					String uuidFileName=UploadUtils.getUuidFileName(fileName);
 					// 获得文件的输入流
@@ -90,6 +95,7 @@ public class UploadUtils {
 		
 		return objectMap;
 	}
+	
 	
 	
 	public static Map<String,String> getFileUploadRequest(HttpServletRequest request,HttpServletResponse response) throws IOException {

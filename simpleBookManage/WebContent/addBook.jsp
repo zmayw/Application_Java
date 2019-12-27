@@ -59,7 +59,11 @@
                    
                   <div class="form-group" >
                     <label for="name" class="col-sm-2 control-label">图书封面 ：</label>
-                    <input type="file" id="bookPic" name="bookPic" style="padding-left: 15px">
+                    <div style="display:inline-block;">
+                    	<input type="file" id="bookPic" name="bookPic" style="padding-left: 15px" onchange="setImagePreview(this,coverImg)">
+                    	<img id="coverImg" style="margin-top:5px;width:160px;height:200px;margin-left:15px;padding:1px 1px 1px 1px;display:block;position:prative;border:1px;" 
+                    	src="">
+                    </div>
                   </div>
 
                   <div class="form-group">
@@ -70,8 +74,10 @@
                   </div>
 
                 <div class="form-group">
+                	
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary" id="saveBtn">保存</button>&nbsp;&nbsp;&nbsp;
+                        <input type="submit" class="btn btn-primary" id="saveBtn" value="保存">&nbsp;&nbsp;&nbsp;
+                        <span id="msgText" style="color:red;">${requestScope.msg}</span>
                     </div>
                 </div>
             </form>
@@ -88,6 +94,7 @@
     					new Array("categoryId","图书分类不能为空!"), 
     					new Array("bookPrice","图书价格不能为空！"),
     					new Array("bookPic", "图书封面不能为空!"));
+    			
     			for (var i = 0; i < arrmsg.length; i++) {
     				if ($("#" + arrmsg[i][0]).val() == null
     						|| $("#" + arrmsg[i][0]).val() == "") {
@@ -98,7 +105,7 @@
     			}
         		
         		
-        		var regId=/^bk[0-9]{4}/;
+        		var regId=/^bk[0-9]{4}$/;
         		if(regId.test($("#bookId").val())==false){
         			alert("图书ID不正确，必须以bk开头+4位数字！");
         			return false;
@@ -110,6 +117,11 @@
         			return false;
         		}
         		
+        		var regImg=/.jpg|.png|.jpeg|.fit$/;
+        		if(regImg.test($("#bookPic").val())==false){
+        			alert("上传文件格式不对，必须是图片！");
+        			return false;
+        		}
         	});
         	
         	$(function(){
@@ -128,8 +140,28 @@
     					}
         			},
         			
-        		})
-        	})
+        		});
+        	});
+        	
+        	function setImagePreview(docObj,imgObjPreview){
+        		var name=docObj.value;
+    			var regImg=/.jpg|.png|.jpeg|.fit$/;
+    			if(regImg.test(name)==false){
+    				alert("文件类型错误，必须为图片！");
+    				//document.getElementById("txtSrc").value=null;
+    				docObj.value=null;
+    				return;
+    			}
+    			if(docObj.files && docObj.files[0]){
+    				document.getElementById("coverImg").src=window.URL.createObjectURL(docObj.files[0]);
+    			}else{
+    				docObj.select();
+    				var imgSrc=document.selection.createRange().text;
+    				document.selection.empty();	
+    			}
+        		
+    			return true;
+        	}	
         </script>
     </body>
 </html>

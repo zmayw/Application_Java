@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.book.domain.Book;
+import com.book.domain.Category;
 import com.book.service.BookService;
 
 
@@ -84,7 +85,12 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public void deleteBook(String bookId) {
 		// TODO Auto-generated method stub
-		
+		for(Book bk:bookList) {
+			if(bk.getId().equals(bookId)) {
+				bookList.remove(bk);
+				break;
+			}
+		}
 	}
 
 	@Override

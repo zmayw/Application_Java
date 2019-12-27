@@ -8,27 +8,6 @@
 <title>新建图书分类</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/add.css">
-<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
-<script type="text/javascript">
-	$("#saveBtn").on("click", function() {
-		var id=$("#categoryId").val();
-		var name=$("#categoryName").val();
-		if(id=="" || id==null){
-			alert("分类Id不能为空！");
-			return false;
-		}
-		if(name=="" || name==null){
-			alert("分类名称不能为空！");
-			return false;
-		}
-		
-		var regId = /^ca[0-9]{4}$/;
-		if (regId.test(id) == false) {
-			alert("格式不对，分类Id必须以ca开头+4位数字！");
-			return false;
-		}
-	});
-</script>
 </head>
 <body>
 	<nav class="navbar navbar-default">
@@ -76,5 +55,26 @@
 		</form>
 	</div>
 	<footer class="text-center"> copy@imooc </footer>
+<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	$("#saveBtn").on("click", function() {
+		var id=$("#categoryId").val();
+		var name=$("#categoryName").val();
+		if(id=="" || id==null){
+			alert("分类Id不能为空！");
+			return false;
+		}
+		if(name=="" || name==null){
+			alert("分类名称不能为空！");
+			return false;
+		}
+		
+		var regId = /^ca[0-9]{4}$/;
+		if (regId.test(id) == false) {
+			alert("格式不对，分类Id必须以ca开头+4位数字！");
+			return false;
+		}
+	});
+</script>
 </body>
 </html>

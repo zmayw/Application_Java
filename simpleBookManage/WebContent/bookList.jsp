@@ -5,21 +5,17 @@
 
 <%
 	String path = request.getContextPath();
-/*	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";*/
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="pragma" content="no-cache"/>
-<meta http-equiv="Cache-Control" content="no-cache,must-revalidate" />
-<meta http-equiv="expires" content="Thu,01 Jan 1970 00:00:01 GMT" />
-<meta http-equiv="expires" content="0" />
+<base href="<%=basePath%>">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>图书后台管理</title>
 <link rel="stylesheet" href="css/index.css">
 <link rel="stylesheet" href="css/bootstrap.min.css">
-
 </head>
 
 <body>
@@ -43,15 +39,11 @@
 		</div>
 	</section>
 	<section class="main">
-
-
 		<div class="container">
-			<form class="form-horizontal"
-				action="${pageContext.request.contextPath}/searchBookServlet"
-				method="post">
+			<form class="form-horizontal">
 				<div class="form-group" style="float: right;">
 					<div class="col-sm-offset-2 col-sm-10">
-						<button type="submit" class="btn btn-primary" id="searchBtn">查询</button>
+						<button type="button" class="btn btn-primary" id="searchBtn">查询</button>
 						&nbsp;&nbsp;&nbsp;
 					</div>
 				</div>
@@ -69,13 +61,11 @@
 						</select>
 					</div>
 				</div>
-
-
 			</form>
 		</div>
 		<div class="container">
 
-			<table class="table table-striped">
+			<table class="table table-striped" id="bookListTbl">
 				<thead>
 					<tr>
 						<th>序号</th>
@@ -88,22 +78,7 @@
 
 					</tr>
 				</thead>
-				<tbody id="contentBody">
-				
-				<!--	<c:forEach items="${requestScope.bookList}" var="book"
-						varStatus="idx">
-						<tr id="tr1">
-							<td>${idx.index+1}</td>
-							<td>${book.id}</td>
-							<td>${book.name}</td>
-							<td>${book.getCategoryName()}</td>
-							<td>${book.price}</td>
-							<td><img src="${book.coverImg}"></td>
-							<td>
-							<a href="${pageContext.request.contextPath}/modifyBook?bookId=${book.id}">修改</a> 
-							<a href="/deleteBook?bookId=${book.id}">删除</a></td>
-						</tr>
-					</c:forEach> -->
+				<tbody id="contentBody">		
 				</tbody>
 			</table>
 		</div>
@@ -118,6 +93,7 @@
 	<footer> copy@慕课网 </footer>
 	<script type="text/javascript" src="js/jquery-3.4.1.js"></script>
 	<script type="text/javascript">
+		
 		$(function() {
 			$.ajax({
 				"url" : "<%=path%>/getCategoryList",
@@ -133,32 +109,59 @@
 			});
 		});
 		
-		
-		$(function() {
+
+		$(function(){
 			$.ajax({
-						"url" : "<%=path%>/getBookList",
+						"url" : "<%=basePath%>getBookList",
 						"dataType" : "json",
 						"type" : "get",
-						"async": false,
 						"success" : function(json) {
-							$("#contentBody>tr").remove();
-							if (json.length == 0) {
-								$("#contentBody").append(
-										"<tr><td colspan='7' style='color:red;text-align:center;'>没有数据</td><tr>");
-								return;
-							}
-							for (var i = 0; i < json.length; i++) {
-								var book = json[i];
-								console.log(book);
-								$("#contentBody").append(
-												"<tr id='tr'"+i/2+1+"><td>"+i+1+"</td><td>"+book.id+"</td><td>"+
-												book.name+"</td><td>"+book.categoryName+"</td><td>"+book.price+
-												"</td><td><img src="+book.coverImg+"></td><td><a href='<%=path%>/modifyBook?bookId="+
-														book.id+"'>修改</a> <a href='<%=path%>/deleteBookServlet?bookId="+book.id+"'>删除</a></td></tr>");
-						
-							}
-						}
+							addTableContent(json);
+						}	
 					});
+		});
+		
+		function addTableContent(json){
+			$("#contentBody>tr").remove();
+			if (json.length == 0) {
+				$("#contentBody").append(
+						"<tr><td colspan='7' style='color:red;text-align:center;'>没有数据</td><tr>");
+				return;
+			}
+			for (var i = 0; i < json.length; i++) {
+				var book = json[i];
+				console.log(book);
+				$("#contentBody").append(
+								"<tr id='tr"+((i+1)%2)+"'><td>"+(i+1)+"</td><td>"+book.id+"</td><td>"+
+								book.name+"</td><td>"+book.categoryName+"</td><td>"+book.price+
+								"</td><td><img src="+book.coverImg+"></td><td><a href='<%=path%>/modifyBook?bookId="+
+										book.id+"'>修改</a> <a href='<%=path%>/deleteBook?bookId="+book.id+"' onclick='return delConfirm()')>删除</a></td></tr>");
+		
+			}	
+		}
+		
+		function delConfirm(){
+			var message=confirm("确认是否删除？");
+			if(message){
+				return true;
+			}else{
+				return false;
+			}
+		};
+		
+		$("#searchBtn").on("click",function(){
+			var id=$("#searchId").val().trim();
+			var name=$("#searchName").val().trim();
+			var categoryId=$("#searchCategoryId").val();
+			$.ajax({
+				"url" :"<%=basePath%>searchBook",
+				"data": {"searchId":id,"searchName":name,"searchCategoryId":categoryId},
+				"dataType" : "json",
+				"type":"POST",
+				"success" : function(json) {
+					addTableContent(json);
+				}	
+			})
 		});
 	</script>
 </body>

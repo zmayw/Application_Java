@@ -3,7 +3,7 @@
 	padding:0px;
 	border:0;
 	font-size:100%;
-	font-family:"宋体";
+	font-family:"瀹嬩綋";
 }
 ul{
 	list-style:none;
@@ -99,7 +99,7 @@ header nav>a{
 	margin:0 auto;
 	white-space: nowrap;
 	overflow: hidden;
-　　	text-overflow: ellipsis;
+銆�銆�	text-overflow: ellipsis;
 	line-height: 30px;
 }
 .alt-content>p{
@@ -155,3 +155,4 @@ footer{
 #tr1 td{
 	vertical-align: middle;
 }
+
