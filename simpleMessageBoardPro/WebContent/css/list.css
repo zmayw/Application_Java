@@ -1,0 +1,8 @@
+.datalistTable{
+	width:100%;
+	text-align:center;
+}
+
+.datalistTable th,.datalistTable td,.datalistTable tr{
+	border:1px solid black;
+}
