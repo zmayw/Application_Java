@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ page contentType="text/html;charset=utf-8" language="java"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -19,26 +19,7 @@
 
 <body>
 	<header>
-		<div class="container">
-			<%
-				if (null != request.getSession().getAttribute("existUser")) {
-			%>
-			<nav>
-				<a href="#">我的留言</a>
-			</nav>
-			<nav>
-				<a href="">我的信息</a>
-			</nav>
-			<%
-				} else {
-			%>
-			<nav>
-				<a href="">登录</a> <a href="">注册</a>
-			</nav>
-			<%
-				}
-			%>
-		</div>
+		<%@ include file="header.jsp"%>
 	</header>
 	<section class="banner">
 		<div class="container">
@@ -65,23 +46,18 @@
 						<p>${message.content}</p>
 					</div>
 					<div align="right">
-						<table>
-							<tr>
-								<td>
-									<button class="btn btn-primary" type="submit">修改</button>
-								</td>
-								<td>&nbsp;&nbsp;</td>
-								<td>
-									<button class="btn btn-primary" type="submit">删除</button>
-								</td>
-							</tr>
-						</table>
+						<span><a href="<%=path %>/showMessageServlet?mid=${message.mid}">修改</a></span>
+						<span><a href="<%=path %>/deleteMessageServlet?mid=${message.mid}">删除</a></span>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
 	</section>
 	<section class="page">
+		<c:if test="${pageBean.rowsCount==0}">
+			<div class="container"><h3>还没有留言，快去添加吧~</h3></div>
+		</c:if>
+		<c:if test="${pageBean.rowsCount>0}">
 		<div class="container" id="pagefy">
 			<ul>
 				<c:if test="${pageBean.pageNum != 1}">
@@ -106,8 +82,8 @@
 				</c:if>
 				<li>共${pageBean.pagesCount}页</li>
 			</ul>
-			<!-- 分页内容参考视频中老师源码 -->
 		</div>
+		</c:if>
 	</section>
 	<footer> copy@慕课网 </footer>
 </body>

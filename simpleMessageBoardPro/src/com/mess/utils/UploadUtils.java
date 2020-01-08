@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,11 +65,11 @@ public class UploadUtils {
 					InputStream is = fileItem.getInputStream();
 					BufferedInputStream bis=new BufferedInputStream(is);
 					// 需要将文件写入到服务器的某个路径下
-					System.out.println("request.getContextPath():"+request.getContextPath());
+					System.out.println("upload request.getContextPath():"+request.getContextPath());
 					objectMap.put("path",request.getContextPath()+"/upload/"+uuidFileName);
 					
 					String url=request.getServletContext().getRealPath("/upload")+"\\"+uuidFileName;
-					System.out.println("url:"+request.getServletContext().getRealPath("/upload"+"\\"+uuidFileName));
+					System.out.println("upload url:"+request.getServletContext().getRealPath("/upload"+"\\"+uuidFileName));
 					// 创建输出流与输入流进行对接
 					OutputStream os = new FileOutputStream(url);
 					BufferedOutputStream bos=new BufferedOutputStream(os);

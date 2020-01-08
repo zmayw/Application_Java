@@ -84,6 +84,33 @@ public class MessageServiceImpl implements MessageService {
 		
 		return pageBean;
 	}
+
+	@Override
+	public Message getMessage(int mid) {
+		Message ms=new Message();
+		MessageDao md=new MessageDaoImpl();
+		ms=md.getMessage(mid);
+		return ms;
+	}
+
+	@Override
+	public void updateMessage() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMessage(int mid, String title, String content, int userId) {
+		MessageDao mdi=new MessageDaoImpl();
+		mdi.updateMessage(mid,title,content,userId);
+	}
+
+	@Override
+	public void deleteMessage(int mid, int userId) {
+		MessageDao mdi=new MessageDaoImpl();
+		mdi.deleteMessage(mid,userId);
+		
+	}
 	
 	
 

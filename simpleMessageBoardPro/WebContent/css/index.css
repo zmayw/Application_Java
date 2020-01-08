@@ -26,8 +26,13 @@ header{
 	background:#F8F8F8;
 	border-bottom:1px solid #d0d6d9;
 }
-header nav{
+.rightNavDiv nav{
 	float:right;
+	line-height:45px;
+}
+
+.leftNavDiv nav{
+	float:left;
 	line-height:45px;
 }
 header nav>a{
@@ -150,4 +155,8 @@ footer{
 	line-height:35px;
 	border-top:1px solid #d0d6d9;
 	text-align:center;
+}
+
+.leftNav{
+	text-align:left;
 }

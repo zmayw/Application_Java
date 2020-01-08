@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Message {
 
-	private int id;
+	private int mid;
 	private int userid;
 	private int cateId;
 	private String title;
@@ -17,7 +17,7 @@ public class Message {
 	
 	@Override
 	public String toString() {
-		return "Message [id=" + id + ", userid=" + userid + ", cateId=" + cateId + ", title=" + title + ", content="
+		return "Message [id=" + mid + ", userid=" + userid + ", cateId=" + cateId + ", title=" + title + ", content="
 				+ content + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
 	}
 	
@@ -37,11 +37,11 @@ public class Message {
 		this.messageCategory=category;
 	}
 	
-	public int getId() {
-		return id;
+	public int getMid() {
+		return mid;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setMid(int id) {
+		this.mid = id;
 	}
 	public int getUserid() {
 		return userid;

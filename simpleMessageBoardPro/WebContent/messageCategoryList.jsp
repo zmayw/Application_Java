@@ -18,21 +18,7 @@
 
     <body>
         <header>
-            <div class="container">
-                <% if (null != request.getSession().getAttribute("existUser")) {%>
-                    <nav>
-                        <a href="">我的留言</a>
-                    </nav>
-                    <nav>
-                        <a href="">我的信息</a>
-                    </nav>
-                <%} else { %>
-                    <nav>
-                        <a href="">登录</a>
-                        <a href="">注册</a>
-                    </nav>
-                <% } %>
-            </div>
+            <%@ include file="header.jsp"%>
         </header>
         <section class="banner">
             <div class="container">

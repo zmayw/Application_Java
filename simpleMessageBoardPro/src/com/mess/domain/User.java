@@ -73,7 +73,11 @@ public class User {
 		this.filePath=path;
 	}
 	
+	@Override
 	public String toString() {
-		return "用户信息：name:"+getName()+" 邮箱："+getEmail();
+		return "User [id=" + id + ", name=" + name + ", password=" + password + ", email=" + email + ", filePath="
+				+ filePath + ", sex=" + sex + "]";
 	}
+	
+
 }

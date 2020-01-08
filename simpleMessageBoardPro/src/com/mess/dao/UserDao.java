@@ -10,4 +10,8 @@ public interface UserDao {
 	public boolean isExistUser(String username);
 	
 	public void register(User user);
+
+	public void updateUser(User user);
+
+	public User getUser(int id);
 }

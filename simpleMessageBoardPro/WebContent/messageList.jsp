@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=utf-8" language="java" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -14,28 +14,7 @@
 
     <body>
         <header>
-            <div id="menuDiv" class="container">
-                <% if (null != request.getSession().getAttribute("existUser")) {%>
-                    <nav>
-                        <a href="<%=path %>/myMessageServlet">我的留言</a>
-                    </nav>
-                    <nav>
-                        <a href="">我的信息</a>
-                    </nav>
-                <%} else { %>
-                    <nav>
-                        <a href="">登录</a>
-                        <a href="">注册</a>
-                    </nav>
-                <% } %>
-                
-            </div>
-            <div class="container">
-            	<a href="<%=path%>/addMessageCategory.jsp">新建分类</a>
-            </div>
-            <div class="container">
-            	<a href="<%=path%>/addMessage.jsp">新建留言</a>
-            </div>
+			<%@ include file="header.jsp"%>
         </header>
         <section class="banner">
             <div class="container">

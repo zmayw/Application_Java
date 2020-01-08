@@ -47,7 +47,7 @@ public class AddMessageServlet extends HttpServlet{
 		//处理数据
 		MessageService msi=new MessageServiceImpl();
 		msi.addMessage(mb);
-		response.sendRedirect(request.getContextPath() + "/messageServlet");
+		response.sendRedirect(request.getContextPath() + "/myMessageServlet");
 	}
 
 	

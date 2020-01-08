@@ -17,9 +17,7 @@ import com.mess.utils.UploadUtils;
 @WebServlet("/registerServlet")
 public class RegisterServlet extends HttpServlet {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

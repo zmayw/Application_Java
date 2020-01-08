@@ -17,4 +17,12 @@ public interface MessageService {
 	
 	public PageBean<Message> findByPage(int page,int userId);
 	
+	public Message getMessage(int mid);
+
+	public void updateMessage();
+
+	public void updateMessage(int mid, String title, String content, int id);
+
+	public void deleteMessage(int mid, int id);
+	
 }

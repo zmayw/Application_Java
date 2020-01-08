@@ -11,4 +11,8 @@ public interface UserService {
 	
 	public boolean isExistUser(String username);
 
+	public void updateUser(User user);
+
+	public User getUser(int id);
+
 }

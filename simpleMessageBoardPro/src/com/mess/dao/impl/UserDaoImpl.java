@@ -112,4 +112,72 @@ public class UserDaoImpl implements UserDao {
 		}
 	}
 
+
+	@Override
+	public void updateUser(User user) {
+		Connection conn =null;
+		PreparedStatement pstmt=null;
+		try {
+		//获得连接
+			conn=JDBCUtils.getConnection();
+		//编写SQL
+			
+				String sql="update user set username=?,password=?,email=?,sex=?,filePath=? where id=?";
+				//预编译SQL
+				pstmt=conn.prepareStatement(sql);
+				//设置参数
+				pstmt.setString(1,user.getName());
+				pstmt.setString(2,user.getPassword());
+				pstmt.setString(3,user.getEmail());
+				pstmt.setString(4,user.getSex());
+				pstmt.setString(5,user.getFilePath());
+				pstmt.setInt(6,user.getId());
+
+		//执行
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			//释放资源
+			JDBCUtils.release(pstmt,conn);
+		}
+		
+	}
+
+
+	@Override
+	public User getUser(int id) {
+		Connection conn =null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+		//获得连接
+			conn=JDBCUtils.getConnection();
+		//编写SQL
+			String sql="select * from user where id=?";
+		//预编译SQL
+			pstmt=conn.prepareStatement(sql);
+		//设置参数
+			pstmt.setInt(1,id);
+		//执行
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				User existUser=new User();
+				existUser.setId(rs.getInt("id"));
+				existUser.setName(rs.getString("username"));
+				existUser.setPassword(rs.getString("password"));
+				existUser.setEmail(rs.getString("email"));
+				existUser.setFilePath(rs.getString("filePath"));
+				existUser.setSex(rs.getString("sex"));
+				return existUser;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			//释放资源
+			JDBCUtils.release(rs,pstmt,conn);
+		}
+		return null;
+	}
+
 }

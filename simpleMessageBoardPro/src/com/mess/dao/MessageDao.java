@@ -20,4 +20,10 @@ public interface MessageDao {
 	public List<Message> getRowsList(int begin, int limit, int userId);
 
 	int findRowsCount(int userId);
+
+	public Message getMessage(int mid);
+
+	public void updateMessage(int mid, String title,String content, int userId);
+
+	public void deleteMessage(int mid, int userId);
 }

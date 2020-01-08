@@ -67,7 +67,7 @@
 					<span style="width:30px;">男</span><input id="male" type="radio" checked="checked" name="sexR" value="男"
 					style="width:30px;height:19px;line-height:19px;display:inline;"> 
 					<span style="width:30px;">女</span><input id="female" type="radio" name="sexR" value="女" style="width:30px;height:19px;line-height:19px;display:inline;">
-					<span style="width:30px;">保密</span><input id="secret" type="radio" name="sexR" value="" style="width:30px;height:19px;line-height:19px;display:inline;">
+					<span style="width:30px;">保密</span><input id="secret" type="radio" name="sexR" value="保密" style="width:30px;height:19px;line-height:19px;display:inline;">
 				</div>
 				<div class="code">
 					<span>上传头像</span><input type="file" name="file"
@@ -178,6 +178,7 @@
 			return true;
 
 		});
+		
 		$("#codeImg")
 				.on(
 						"click",

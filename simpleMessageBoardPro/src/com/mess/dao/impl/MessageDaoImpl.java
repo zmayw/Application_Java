@@ -32,7 +32,7 @@ public class MessageDaoImpl implements MessageDao {
 			msList=new ArrayList<Message>();
 			while(rs.next()) {
 				Message ms=new Message();
-				ms.setId(rs.getInt("mid"));
+				ms.setMid(rs.getInt("mid"));
 				ms.setUserid(rs.getInt("userId"));
 				ms.setCateId(rs.getInt("cateId"));
 				ms.setTitle(rs.getString("title"));
@@ -177,7 +177,7 @@ public class MessageDaoImpl implements MessageDao {
 			messageList=new ArrayList<Message>();
 			while(rs.next()) {
 				Message mess=new Message();
-				mess.setId(rs.getInt("mid"));
+				mess.setMid(rs.getInt("mid"));
 				mess.setUserid(rs.getInt("userId"));
 				mess.setCateId(rs.getInt("cateId"));
 				mess.setTitle(rs.getString("title"));
@@ -229,7 +229,7 @@ public class MessageDaoImpl implements MessageDao {
 			messageList=new ArrayList<Message>();
 			while(rs.next()) {
 				Message mess=new Message();
-				mess.setId(rs.getInt("mid"));
+				mess.setMid(rs.getInt("mid"));
 				mess.setUserid(rs.getInt("userId"));
 				mess.setCateId(rs.getInt("cateId"));
 				mess.setTitle(rs.getString("title"));
@@ -283,7 +283,7 @@ public class MessageDaoImpl implements MessageDao {
 			messageList=new ArrayList<Message>();
 			while(rs.next()) {
 				Message mess=new Message();
-				mess.setId(rs.getInt("mid"));
+				mess.setMid(rs.getInt("mid"));
 				mess.setUserid(rs.getInt("userId"));
 				mess.setCateId(rs.getInt("cateId"));
 				mess.setTitle(rs.getString("title"));
@@ -310,6 +310,105 @@ public class MessageDaoImpl implements MessageDao {
 		}
 		
 		return messageList;
+	}
+
+	@Override
+	public Message getMessage(int mid) {
+		Connection conn =null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		Message ms=null;
+		try {
+		//获得连接
+			conn=JDBCUtils.getConnection();
+		//编写SQL
+			String sql="select * from message as m, messageCategory as mc,user as u where m.cateId=mc.cid and m.mid=? ";
+		//预编译SQL
+			pstmt=conn.prepareStatement(sql);
+		//设置参数
+			pstmt.setInt(1,mid);
+		//执行
+			rs=pstmt.executeQuery();
+			ms=new Message();
+			if(rs.next()) {
+				ms.setMid(rs.getInt("mid"));
+				ms.setUserid(rs.getInt("userId"));
+				ms.setCateId(rs.getInt("cateId"));
+				ms.setTitle(rs.getString("title"));
+				ms.setContent(rs.getString("content"));
+				ms.setCreateTime(rs.getTimestamp("createTime"));
+				ms.setModifyTime(rs.getTimestamp("modifyTime"));
+				
+				//封装信息分类
+				ms.getMessageCategory().setCid(rs.getInt("cid"));
+				ms.getMessageCategory().setName(rs.getString("cateName"));
+				ms.getMessageCategory().setDesc(rs.getString("cateDesc"));
+				
+				//封装用户信息
+				ms.getUser().setId(rs.getInt("userId"));
+				ms.getUser().setName(rs.getString("username"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			//释放资源
+			JDBCUtils.release(rs,pstmt,conn);
+		}
+		
+		return ms;
+	}
+
+	@Override
+	public void updateMessage(int mid, String title, String content,int userId) {
+		Connection conn =null;
+		PreparedStatement pstmt=null;
+		try {
+		//获得连接
+			conn=JDBCUtils.getConnection();
+		//编写SQL
+			String sql="update message set title=?, content=? ,modifyTime=? where mid=? and userId=?";
+		//预编译SQL
+			pstmt=conn.prepareStatement(sql);
+		//设置参数
+			pstmt.setString(1,title);
+			pstmt.setString(2,content);
+			pstmt.setTimestamp(3,new Timestamp(System.currentTimeMillis()));
+			pstmt.setInt(4,mid);
+			pstmt.setInt(5,userId);
+		//执行
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			//释放资源
+			JDBCUtils.release(pstmt,conn);
+		}	
+		
+	}
+
+	@Override
+	public void deleteMessage(int mid, int userId) {
+		Connection conn =null;
+		PreparedStatement pstmt=null;
+		try {
+		//获得连接
+			conn=JDBCUtils.getConnection();
+		//编写SQL
+			String sql="delete from message where mid=? and userId=?";
+		//预编译SQL
+			pstmt=conn.prepareStatement(sql);
+		//设置参数
+			pstmt.setInt(1,mid);
+			pstmt.setInt(2,userId);
+		//执行
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			//释放资源
+			JDBCUtils.release(pstmt,conn);
+		}
+		
 	}
 
 	
